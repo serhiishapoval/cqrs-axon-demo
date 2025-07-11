@@ -14,8 +14,7 @@ import org.axonframework.spring.stereotype.Aggregate;
 @Aggregate
 public class StoreAggregate {
 
-  @AggregateIdentifier
-  private String id;
+  @AggregateIdentifier private String id;
   private String name;
   private int year;
   private String country;
@@ -30,23 +29,28 @@ public class StoreAggregate {
     this.validateStore(command);
 
     final List<GadgetState> gadgetStates = new ArrayList<>();
-    command.getGadgets().forEach(gadget -> {
-      GadgetState gadgetState = GadgetState.builder()
-          .id(gadget.getId())
-          .name(gadget.getName())
-          .type(gadget.getType())
-          .color(gadget.getColor())
-          .build();
-      gadgetStates.add(gadgetState);
-    });
+    command
+        .getGadgets()
+        .forEach(
+            gadget -> {
+              GadgetState gadgetState =
+                  GadgetState.builder()
+                      .id(gadget.getId())
+                      .name(gadget.getName())
+                      .type(gadget.getType())
+                      .color(gadget.getColor())
+                      .build();
+              gadgetStates.add(gadgetState);
+            });
 
-    final StoreCreatedEvent storeEvent = StoreCreatedEvent.builder()
-        .id(command.getId())
-        .name(command.getName())
-        .year(command.getYear())
-        .country(command.getCountry())
-        .gadgets(gadgetStates)
-        .build();
+    final StoreCreatedEvent storeEvent =
+        StoreCreatedEvent.builder()
+            .id(command.getId())
+            .name(command.getName())
+            .year(command.getYear())
+            .country(command.getCountry())
+            .gadgets(gadgetStates)
+            .build();
 
     AggregateLifecycle.apply(storeEvent);
   }
@@ -71,6 +75,4 @@ public class StoreAggregate {
     this.country = event.getCountry();
     this.gadgets = new ArrayList<>(event.getGadgets());
   }
-
-
 }

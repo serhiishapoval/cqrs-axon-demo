@@ -9,8 +9,7 @@ import org.axonframework.modelling.command.TargetAggregateIdentifier;
 @Builder
 public class CreateStoreCommand {
 
-  @TargetAggregateIdentifier
-  private String id;
+  @TargetAggregateIdentifier private String id;
   private String name;
   private int year;
   private String country;

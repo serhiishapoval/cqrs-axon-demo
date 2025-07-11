@@ -8,11 +8,10 @@ import org.springframework.context.annotation.Import;
 
 @SpringBootApplication
 @EnableDiscoveryClient
-@Import({ SerializerConfiguration.class })
+@Import({SerializerConfiguration.class})
 public class QueryApplication {
 
   public static void main(String[] args) {
     SpringApplication.run(QueryApplication.class, args);
   }
-
 }

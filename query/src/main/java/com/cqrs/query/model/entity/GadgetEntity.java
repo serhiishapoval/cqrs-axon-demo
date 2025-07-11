@@ -14,8 +14,7 @@ import lombok.NoArgsConstructor;
 @Entity(name = "GADGET")
 public class GadgetEntity {
 
-  @Id
-  private String id;
+  @Id private String id;
   private String name;
   private String type;
   private String color;

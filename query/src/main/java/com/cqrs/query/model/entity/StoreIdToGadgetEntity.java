@@ -14,8 +14,7 @@ import lombok.NoArgsConstructor;
 @Entity(name = "STORE_ID_TO_GADGET")
 public class StoreIdToGadgetEntity {
 
-  @Id
-  private String id;
+  @Id private String id;
   private String storeId;
   private String gadgetId;
   private String name;

@@ -10,7 +10,6 @@ import com.cqrs.query.repository.GadgetToCountryRepository;
 import com.cqrs.query.repository.StoreIdToGadgetRepository;
 import com.cqrs.query.service.GadgetService;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
@@ -46,30 +45,37 @@ public class GadgetServiceImpl implements GadgetService {
 
   @Override
   public List<GadgetToCountryResponse> getGadgetsFromCountry(final String country) {
-    return new ArrayList<>(this.gadgetToCountryRepository.findAllByCountry(country).stream()
-        .map(gadgetToCountryEntity -> GadgetToCountryResponse.builder()
-            .country(gadgetToCountryEntity.getCountry())
-            .gadgetId(gadgetToCountryEntity.getGadgetId())
-            .name(gadgetToCountryEntity.getName())
-            .type(gadgetToCountryEntity.getType())
-            .color(gadgetToCountryEntity.getColor())
-            .build())
-        .toList());
+    return new ArrayList<>(
+        this.gadgetToCountryRepository.findAllByCountry(country).stream()
+            .map(
+                gadgetToCountryEntity ->
+                    GadgetToCountryResponse.builder()
+                        .country(gadgetToCountryEntity.getCountry())
+                        .gadgetId(gadgetToCountryEntity.getGadgetId())
+                        .name(gadgetToCountryEntity.getName())
+                        .type(gadgetToCountryEntity.getType())
+                        .color(gadgetToCountryEntity.getColor())
+                        .build())
+            .toList());
   }
 
   @Override
   public List<StoreIdToGadgetResponse> getStoreIdToGadgets(String storeId) {
-    final List<StoreIdToGadgetEntity> storeIdToGadgetEntities = this.storeIdToGadgetRepository.findAllByStoreId(
-        storeId);
-    return CollectionUtils.isEmpty(storeIdToGadgetEntities) ? new ArrayList<>(0) :
-        new ArrayList<>(storeIdToGadgetEntities.stream().map(storeIdToGadgetEntity ->
-                StoreIdToGadgetResponse.builder()
-                    .storeId(storeIdToGadgetEntity.getStoreId())
-                    .gadgetId(storeIdToGadgetEntity.getGadgetId())
-                    .name(storeIdToGadgetEntity.getName())
-                    .type(storeIdToGadgetEntity.getType())
-                    .color(storeIdToGadgetEntity.getColor())
-                    .build())
-            .toList());
+    final List<StoreIdToGadgetEntity> storeIdToGadgetEntities =
+        this.storeIdToGadgetRepository.findAllByStoreId(storeId);
+    return CollectionUtils.isEmpty(storeIdToGadgetEntities)
+        ? new ArrayList<>(0)
+        : new ArrayList<>(
+            storeIdToGadgetEntities.stream()
+                .map(
+                    storeIdToGadgetEntity ->
+                        StoreIdToGadgetResponse.builder()
+                            .storeId(storeIdToGadgetEntity.getStoreId())
+                            .gadgetId(storeIdToGadgetEntity.getGadgetId())
+                            .name(storeIdToGadgetEntity.getName())
+                            .type(storeIdToGadgetEntity.getType())
+                            .color(storeIdToGadgetEntity.getColor())
+                            .build())
+                .toList());
   }
 }

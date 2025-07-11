@@ -24,5 +24,4 @@ public class StoreController {
     return ResponseEntity.ok(
         this.queryGateway.query(getStoreByIdQuery, StoreResponse.class).join());
   }
-
 }

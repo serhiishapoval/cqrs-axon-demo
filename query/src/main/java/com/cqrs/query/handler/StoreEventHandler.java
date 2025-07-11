@@ -29,59 +29,66 @@ public class StoreEventHandler {
 
   @EventHandler
   public void on(final StoreCreatedEvent storeCreatedEvent) throws Exception {
-     this.insertStore(storeCreatedEvent);
+    this.insertStore(storeCreatedEvent);
     this.insertGadgets(storeCreatedEvent);
     this.insertStoreIdToGadgets(storeCreatedEvent);
     this.insertGadgetToCountry(storeCreatedEvent);
   }
 
   private void insertStore(final StoreCreatedEvent storeCreatedEvent) {
-    this.storeRepository.save(StoreEntity.builder()
-        .id(storeCreatedEvent.getId())
-        .name(storeCreatedEvent.getName())
-        .year(storeCreatedEvent.getYear())
-        .country(storeCreatedEvent.getCountry())
-        .build());
+    this.storeRepository.save(
+        StoreEntity.builder()
+            .id(storeCreatedEvent.getId())
+            .name(storeCreatedEvent.getName())
+            .year(storeCreatedEvent.getYear())
+            .country(storeCreatedEvent.getCountry())
+            .build());
   }
 
   private void insertGadgets(final StoreCreatedEvent storeCreatedEvent) {
-    this.gadgetRepository.saveAll(storeCreatedEvent.getGadgets().stream().map(gadgetState ->
-        GadgetEntity.builder()
-            .id(gadgetState.getId())
-            .name(gadgetState.getName())
-            .type(gadgetState.getType())
-            .color(gadgetState.getColor())
-            .storeId(storeCreatedEvent.getId())
-            .build()
-    ).toList());
+    this.gadgetRepository.saveAll(
+        storeCreatedEvent.getGadgets().stream()
+            .map(
+                gadgetState ->
+                    GadgetEntity.builder()
+                        .id(gadgetState.getId())
+                        .name(gadgetState.getName())
+                        .type(gadgetState.getType())
+                        .color(gadgetState.getColor())
+                        .storeId(storeCreatedEvent.getId())
+                        .build())
+            .toList());
   }
 
   private void insertStoreIdToGadgets(final StoreCreatedEvent storeCreatedEvent) {
     this.storeIdToGadgetRepository.saveAll(
-        storeCreatedEvent.getGadgets().stream().map(gadgetState ->
-            StoreIdToGadgetEntity.builder()
-                .id(UUID.randomUUID().toString())
-                .storeId(storeCreatedEvent.getId())
-                .gadgetId(gadgetState.getId())
-                .name(gadgetState.getName())
-                .type(gadgetState.getType())
-                .color(gadgetState.getColor())
-                .build()
-        ).toList());
+        storeCreatedEvent.getGadgets().stream()
+            .map(
+                gadgetState ->
+                    StoreIdToGadgetEntity.builder()
+                        .id(UUID.randomUUID().toString())
+                        .storeId(storeCreatedEvent.getId())
+                        .gadgetId(gadgetState.getId())
+                        .name(gadgetState.getName())
+                        .type(gadgetState.getType())
+                        .color(gadgetState.getColor())
+                        .build())
+            .toList());
   }
 
   private void insertGadgetToCountry(final StoreCreatedEvent storeCreatedEvent) {
     this.gadgetToCountryRepository.saveAll(
-        storeCreatedEvent.getGadgets().stream().map(gadgetState ->
-                GadgetToCountryEntity.builder()
-                    .id(UUID.randomUUID().toString())
-                    .country(storeCreatedEvent.getCountry())
-                    .gadgetId(gadgetState.getId())
-                    .name(gadgetState.getName())
-                    .type(gadgetState.getType())
-                    .color(gadgetState.getColor())
-                    .build())
-            .toList()
-    );
+        storeCreatedEvent.getGadgets().stream()
+            .map(
+                gadgetState ->
+                    GadgetToCountryEntity.builder()
+                        .id(UUID.randomUUID().toString())
+                        .country(storeCreatedEvent.getCountry())
+                        .gadgetId(gadgetState.getId())
+                        .name(gadgetState.getName())
+                        .type(gadgetState.getType())
+                        .color(gadgetState.getColor())
+                        .build())
+            .toList());
   }
 }

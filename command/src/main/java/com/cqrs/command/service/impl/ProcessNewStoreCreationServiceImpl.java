@@ -23,28 +23,32 @@ public class ProcessNewStoreCreationServiceImpl implements ProcessNewStoreCreati
   public String processNewStore(final StoreRequest storeRequest) {
     final String storeId = UUID.randomUUID().toString();
     final List<GadgetCommand> gadgetCommands = new ArrayList<>();
-    storeRequest.getGadgets().forEach(gadgetRequest -> {
-      GadgetCommand gadgetCommand = GadgetCommand.builder()
-          .id(UUID.randomUUID().toString())
-          .name(gadgetRequest.getName())
-          .type(gadgetRequest.getType())
-          .color(gadgetRequest.getColor())
-          .build();
-      gadgetCommands.add(gadgetCommand);
-    });
+    storeRequest
+        .getGadgets()
+        .forEach(
+            gadgetRequest -> {
+              GadgetCommand gadgetCommand =
+                  GadgetCommand.builder()
+                      .id(UUID.randomUUID().toString())
+                      .name(gadgetRequest.getName())
+                      .type(gadgetRequest.getType())
+                      .color(gadgetRequest.getColor())
+                      .build();
+              gadgetCommands.add(gadgetCommand);
+            });
 
-    final CreateStoreCommand createStoreCommand = CreateStoreCommand.builder()
-        .id(storeId)
-        .name(storeRequest.getName())
-        .year(storeRequest.getYear())
-        .country(storeRequest.getCountry())
-        .gadgets(gadgetCommands)
-        .build();
+    final CreateStoreCommand createStoreCommand =
+        CreateStoreCommand.builder()
+            .id(storeId)
+            .name(storeRequest.getName())
+            .year(storeRequest.getYear())
+            .country(storeRequest.getCountry())
+            .gadgets(gadgetCommands)
+            .build();
 
     this.commandGateway.sendAndWait(createStoreCommand);
 
     log.info("processNewStore. createStoreCommand: {}", createStoreCommand);
     return storeId;
   }
-
 }

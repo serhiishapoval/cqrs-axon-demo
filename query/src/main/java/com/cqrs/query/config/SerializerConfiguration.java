@@ -20,16 +20,15 @@ public class SerializerConfiguration {
     xStream.addPermission(AnyTypePermission.ANY);
 
     // Setup default collections handling
-    xStream.registerConverter(new com.thoughtworks.xstream.converters.collections.CollectionConverter(xStream.getMapper()));
+    xStream.registerConverter(
+        new com.thoughtworks.xstream.converters.collections.CollectionConverter(
+            xStream.getMapper()));
 
     // Allow types explicitly
-    xStream.allowTypesByWildcard(new String[]{
-        "com.cqrs.dto.**",
-        "com.cqrs.query.**",
-        "java.util.*",
-        "java.lang.*",
-        "[L*"  // Array types
-    });
+    xStream.allowTypesByWildcard(
+        new String[] {
+          "com.cqrs.dto.**", "com.cqrs.query.**", "java.util.*", "java.lang.*", "[L*" // Array types
+        });
 
     // Configure XStream to use Collection interfaces instead of implementations
     xStream.alias("list", java.util.List.class);
@@ -42,16 +41,11 @@ public class SerializerConfiguration {
   @Bean
   @Primary
   public XStreamSerializer xStreamSerializer(final XStream xStream) {
-    return XStreamSerializer.builder()
-        .xStream(xStream)
-        .lenientDeserialization()
-        .build();
+    return XStreamSerializer.builder().xStream(xStream).lenientDeserialization().build();
   }
 
   @Autowired
   public void configure(final EventProcessingConfigurer configurer) {
     configurer.usingTrackingEventProcessors();
   }
-
-
 }

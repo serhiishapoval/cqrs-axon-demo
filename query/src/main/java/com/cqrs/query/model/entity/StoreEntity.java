@@ -14,10 +14,11 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Entity(name = "STORE")
 public class StoreEntity {
-  @Id
-  private String id;
+  @Id private String id;
   private String name;
+
   @Column(name = "\"year\"")
   private int year;
+
   private String country;
 }

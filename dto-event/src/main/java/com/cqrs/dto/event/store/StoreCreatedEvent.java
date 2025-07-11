@@ -13,5 +13,4 @@ public class StoreCreatedEvent {
   private int year;
   private String country;
   private List<GadgetState> gadgets;
-
 }

@@ -13,8 +13,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Entity(name = "GADGET_TO_COUNTRY")
 public class GadgetToCountryEntity {
-  @Id
-  private String id;
+  @Id private String id;
   private String country;
   private String gadgetId;
   private String name;

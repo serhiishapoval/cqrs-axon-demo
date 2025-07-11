@@ -36,8 +36,12 @@ public class GadgetController {
       @PathVariable final String country) {
     final GetGadgetsByCountryQuery getGadgetsByCountryQuery = new GetGadgetsByCountryQuery(country);
 
-    return ResponseEntity.ok(this.queryGateway.query(getGadgetsByCountryQuery,
-        ResponseTypes.multipleInstancesOf(GadgetToCountryResponse.class)).join());
+    return ResponseEntity.ok(
+        this.queryGateway
+            .query(
+                getGadgetsByCountryQuery,
+                ResponseTypes.multipleInstancesOf(GadgetToCountryResponse.class))
+            .join());
   }
 
   @GetMapping("/storeId/{storeId}")
@@ -46,7 +50,10 @@ public class GadgetController {
     final GetGadgetsByStoreIdQuery getGadgetsByStoreIdQuery = new GetGadgetsByStoreIdQuery(storeId);
 
     return ResponseEntity.ok(
-        this.queryGateway.query(getGadgetsByStoreIdQuery,
-            ResponseTypes.multipleInstancesOf(StoreIdToGadgetResponse.class)).join());
+        this.queryGateway
+            .query(
+                getGadgetsByStoreIdQuery,
+                ResponseTypes.multipleInstancesOf(StoreIdToGadgetResponse.class))
+            .join());
   }
 }

@@ -37,13 +37,17 @@ public class StoreServiceImpl implements StoreService {
           .year(storeEntity.getYear())
           .country(storeEntity.getCountry())
           .gadgets(
-              new ArrayList<>(gadgetEntities.stream().map(gadgetEntity -> GadgetResponse.builder()
-                      .id(gadgetEntity.getId())
-                      .name(gadgetEntity.getName())
-                      .type(gadgetEntity.getType())
-                      .color(gadgetEntity.getColor())
-                      .build())
-                  .toList()))
+              new ArrayList<>(
+                  gadgetEntities.stream()
+                      .map(
+                          gadgetEntity ->
+                              GadgetResponse.builder()
+                                  .id(gadgetEntity.getId())
+                                  .name(gadgetEntity.getName())
+                                  .type(gadgetEntity.getType())
+                                  .color(gadgetEntity.getColor())
+                                  .build())
+                      .toList()))
           .build();
     }
     return StoreResponse.builder().build();

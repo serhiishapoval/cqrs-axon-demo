@@ -28,27 +28,32 @@ public class StoreEventHandler {
   }
 
   private void insertStore(final StoreCreatedEvent storeCreatedEvent) {
-    final StoreEntity storeEntity = StoreEntity.builder()
-        .id(storeCreatedEvent.getId())
-        .name(storeCreatedEvent.getName())
-        .year(storeCreatedEvent.getYear())
-        .country(storeCreatedEvent.getCountry())
-        .build();
+    final StoreEntity storeEntity =
+        StoreEntity.builder()
+            .id(storeCreatedEvent.getId())
+            .name(storeCreatedEvent.getName())
+            .year(storeCreatedEvent.getYear())
+            .country(storeCreatedEvent.getCountry())
+            .build();
     this.storeRepository.save(storeEntity);
     log.info("insertStore. New store inserted. storeEntity: {}", storeEntity);
   }
 
   private void insertGadget(final StoreCreatedEvent storeCreatedEvent) {
-    storeCreatedEvent.getGadgets().forEach(gadget -> {
-      final GadgetEntity gadgetEntity = GadgetEntity.builder()
-          .id(gadget.getId())
-          .name(gadget.getName())
-          .type(gadget.getType())
-          .color(gadget.getColor())
-          .storeId(storeCreatedEvent.getId())
-          .build();
-      this.gadgetRepository.save(gadgetEntity);
-      log.info("insertGadget. New gadget inserted. gadgetEntity: {}", gadgetEntity);
-    });
+    storeCreatedEvent
+        .getGadgets()
+        .forEach(
+            gadget -> {
+              final GadgetEntity gadgetEntity =
+                  GadgetEntity.builder()
+                      .id(gadget.getId())
+                      .name(gadget.getName())
+                      .type(gadget.getType())
+                      .color(gadget.getColor())
+                      .storeId(storeCreatedEvent.getId())
+                      .build();
+              this.gadgetRepository.save(gadgetEntity);
+              log.info("insertGadget. New gadget inserted. gadgetEntity: {}", gadgetEntity);
+            });
   }
 }
