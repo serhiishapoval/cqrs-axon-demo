@@ -23,6 +23,7 @@
     <module>discovery-server</module>
     <module>command</module>
     <module>query</module>
+    <module>dto-event</module>
   </modules>
 
   <properties>
