@@ -1,6 +1,7 @@
 package com.cqrs.query.handler;
 
 import com.cqrs.dto.event.store.StoreCreatedEvent;
+import com.cqrs.dto.event.store.StoreNameUpdatedEvent;
 import com.cqrs.query.model.entity.GadgetEntity;
 import com.cqrs.query.model.entity.GadgetToCountryEntity;
 import com.cqrs.query.model.entity.StoreEntity;
@@ -28,11 +29,28 @@ public class StoreEventHandler {
   private final GadgetToCountryRepository gadgetToCountryRepository;
 
   @EventHandler
-  public void on(final StoreCreatedEvent storeCreatedEvent) throws Exception {
+  public void on(final StoreCreatedEvent storeCreatedEvent) {
     this.insertStore(storeCreatedEvent);
     this.insertGadgets(storeCreatedEvent);
     this.insertStoreIdToGadgets(storeCreatedEvent);
     this.insertGadgetToCountry(storeCreatedEvent);
+  }
+
+  @EventHandler
+  public void on(final StoreNameUpdatedEvent storeNameUpdatedEvent) {
+    this.updateStoreName(storeNameUpdatedEvent);
+  }
+
+  private void updateStoreName(final StoreNameUpdatedEvent storeNameUpdatedEvent) {
+    final StoreEntity storeEntity =
+        this.storeRepository.findById(storeNameUpdatedEvent.getId()).orElse(null);
+    if (storeEntity != null) {
+      storeEntity.setName(storeNameUpdatedEvent.getName());
+      this.storeRepository.save(storeEntity);
+      log.info("updateStoreName. Store name updated. storeEntity: {}", storeEntity);
+    } else {
+      log.info("updateStoreName. Store not found. storeId: {}", storeNameUpdatedEvent.getId());
+    }
   }
 
   private void insertStore(final StoreCreatedEvent storeCreatedEvent) {

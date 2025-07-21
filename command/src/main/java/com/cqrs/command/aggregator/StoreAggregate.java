@@ -1,10 +1,13 @@
 package com.cqrs.command.aggregator;
 
 import com.cqrs.command.model.command.CreateStoreCommand;
+import com.cqrs.command.model.command.UpdateStoreNameCommand;
 import com.cqrs.dto.event.store.GadgetState;
 import com.cqrs.dto.event.store.StoreCreatedEvent;
 import java.util.ArrayList;
 import java.util.List;
+
+import com.cqrs.dto.event.store.StoreNameUpdatedEvent;
 import org.axonframework.commandhandling.CommandHandler;
 import org.axonframework.eventsourcing.EventSourcingHandler;
 import org.axonframework.modelling.command.AggregateIdentifier;
@@ -55,6 +58,39 @@ public class StoreAggregate {
     AggregateLifecycle.apply(storeEvent);
   }
 
+  @EventSourcingHandler
+  public void on(final StoreCreatedEvent event) {
+    this.id = event.getId();
+    this.name = event.getName();
+    this.year = event.getYear();
+    this.country = event.getCountry();
+    this.gadgets = new ArrayList<>(event.getGadgets());
+  }
+
+  @CommandHandler
+  public void handle(final UpdateStoreNameCommand command) {
+    this.validateUpdateStoreName(command);
+
+    final StoreNameUpdatedEvent storeNameUpdatedEvent =
+        StoreNameUpdatedEvent.builder().id(command.getId()).name(command.getName()).build();
+
+    AggregateLifecycle.apply(storeNameUpdatedEvent);
+  }
+
+  @EventSourcingHandler
+  public void on(final StoreNameUpdatedEvent event) {
+    this.name = event.getName();
+  }
+
+  private void validateUpdateStoreName(final UpdateStoreNameCommand command) {
+    if (command.getId() == null || command.getId().isBlank()) {
+      throw new IllegalArgumentException("Store id cannot be empty");
+    }
+    if (command.getName() == null || command.getName().isBlank()) {
+      throw new IllegalArgumentException("Store name cannot be empty");
+    }
+  }
+
   private void validateStore(final CreateStoreCommand command) {
     if (command.getName() == null || command.getName().isBlank()) {
       throw new IllegalArgumentException("Store name cannot be empty");
@@ -65,14 +101,5 @@ public class StoreAggregate {
     if (command.getGadgets() == null || command.getGadgets().isEmpty()) {
       throw new IllegalArgumentException("Store must have at least one gadget");
     }
-  }
-
-  @EventSourcingHandler
-  public void on(final StoreCreatedEvent event) {
-    this.id = event.getId();
-    this.name = event.getName();
-    this.year = event.getYear();
-    this.country = event.getCountry();
-    this.gadgets = new ArrayList<>(event.getGadgets());
   }
 }

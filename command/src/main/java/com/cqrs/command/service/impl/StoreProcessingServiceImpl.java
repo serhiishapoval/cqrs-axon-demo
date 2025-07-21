@@ -2,8 +2,10 @@ package com.cqrs.command.service.impl;
 
 import com.cqrs.command.model.command.CreateStoreCommand;
 import com.cqrs.command.model.command.GadgetCommand;
+import com.cqrs.command.model.command.UpdateStoreNameCommand;
 import com.cqrs.command.model.rest.StoreRequest;
-import com.cqrs.command.service.ProcessNewStoreCreationService;
+import com.cqrs.command.model.rest.UpdateStoreNameRequest;
+import com.cqrs.command.service.StoreProcessingService;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -15,12 +17,12 @@ import org.springframework.stereotype.Service;
 @Service
 @Slf4j
 @RequiredArgsConstructor
-public class ProcessNewStoreCreationServiceImpl implements ProcessNewStoreCreationService {
+public class StoreProcessingServiceImpl implements StoreProcessingService {
 
   private final CommandGateway commandGateway;
 
   @Override
-  public String processNewStore(final StoreRequest storeRequest) {
+  public String createStore(final StoreRequest storeRequest) {
     final String storeId = UUID.randomUUID().toString();
     final List<GadgetCommand> gadgetCommands = new ArrayList<>();
     storeRequest
@@ -50,5 +52,17 @@ public class ProcessNewStoreCreationServiceImpl implements ProcessNewStoreCreati
 
     log.info("processNewStore. createStoreCommand: {}", createStoreCommand);
     return storeId;
+  }
+
+  @Override
+  public void updateStoreName(final UpdateStoreNameRequest updateStoreNameRequest) {
+
+    final UpdateStoreNameCommand updateStoreNameCommand =
+        UpdateStoreNameCommand.builder()
+            .id(updateStoreNameRequest.getStoreId().toString())
+            .name(updateStoreNameRequest.getName())
+            .build();
+    this.commandGateway.sendAndWait(updateStoreNameCommand);
+    log.info("updateStoreName. updateStoreNameCommand: {}", updateStoreNameCommand);
   }
 }

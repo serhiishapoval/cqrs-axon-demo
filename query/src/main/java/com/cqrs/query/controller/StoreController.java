@@ -3,6 +3,7 @@ package com.cqrs.query.controller;
 import com.cqrs.query.model.query.GetStoreByIdQuery;
 import com.cqrs.query.model.rest.StoreResponse;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.axonframework.queryhandling.QueryGateway;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/store")
 @RequiredArgsConstructor
+@Slf4j
 public class StoreController {
 
   private final QueryGateway queryGateway;
@@ -20,7 +22,7 @@ public class StoreController {
   @GetMapping("/{storeId}")
   public ResponseEntity<StoreResponse> getStoreById(@PathVariable final String storeId) {
     final GetStoreByIdQuery getStoreByIdQuery = new GetStoreByIdQuery(storeId);
-
+    log.info("HANDLER INVOKED for storeId=" + getStoreByIdQuery.getStoreId());
     return ResponseEntity.ok(
         this.queryGateway.query(getStoreByIdQuery, StoreResponse.class).join());
   }

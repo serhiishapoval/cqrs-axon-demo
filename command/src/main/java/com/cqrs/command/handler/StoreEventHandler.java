@@ -5,6 +5,7 @@ import com.cqrs.command.model.entity.StoreEntity;
 import com.cqrs.command.repository.GadgetRepository;
 import com.cqrs.command.repository.StoreRepository;
 import com.cqrs.dto.event.store.StoreCreatedEvent;
+import com.cqrs.dto.event.store.StoreNameUpdatedEvent;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.axonframework.config.ProcessingGroup;
@@ -25,6 +26,23 @@ public class StoreEventHandler {
   public void on(final StoreCreatedEvent storeCreatedEvent) throws Exception {
     this.insertStore(storeCreatedEvent);
     this.insertGadget(storeCreatedEvent);
+  }
+
+  @EventHandler
+  public void on(final StoreNameUpdatedEvent storeNameUpdatedEvent) throws Exception {
+    this.updateStoreName(storeNameUpdatedEvent);
+  }
+
+  private void updateStoreName(final StoreNameUpdatedEvent storeNameUpdatedEvent) {
+    final StoreEntity storeEntity =
+        this.storeRepository.findById(storeNameUpdatedEvent.getId()).orElse(null);
+    if (storeEntity != null) {
+      storeEntity.setName(storeNameUpdatedEvent.getName());
+      this.storeRepository.save(storeEntity);
+      log.info("updateStoreName. Store name updated. storeEntity: {}", storeEntity);
+    } else {
+      log.info("updateStoreName. Store not found. storeId: {}", storeNameUpdatedEvent.getId());
+    }
   }
 
   private void insertStore(final StoreCreatedEvent storeCreatedEvent) {

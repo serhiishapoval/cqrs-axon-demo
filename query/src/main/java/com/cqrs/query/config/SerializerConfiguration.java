@@ -7,9 +7,10 @@ import org.axonframework.serialization.xml.XStreamSerializer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Configurable;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 
-@Configurable
+@Configuration
 public class SerializerConfiguration {
 
   @Bean

@@ -1,0 +1,99 @@
+[
+  {
+    "id": "73ec21bc-28a6-4804-b77e-61beb9b43e24",
+    "name": "TechWorld",
+    "year": 2020,
+    "country": "USA",
+    "gadgets": [
+      {
+        "name": "SmartWatch Pro",
+        "type": "Wearable",
+        "color": "Black"
+      },
+      {
+        "name": "Wireless Earbuds",
+        "type": "Audio",
+        "color": "White"
+      }
+    ]
+  },
+  {
+    "id": "db4faf7d-4448-478b-a5b6-acae3d8f235c",
+    "name": "GadgetHub",
+    "year": 2019,
+    "country": "Japan",
+    "gadgets": [
+      {
+        "name": "Gaming Console X",
+        "type": "Gaming",
+        "color": "Blue"
+      },
+      {
+        "name": "Smart Speaker",
+        "type": "Audio",
+        "color": "Gray"
+      },
+      {
+        "name": "Robot Vacuum",
+        "type": "Home",
+        "color": "Silver"
+      }
+    ]
+  },
+  {
+    "name": "ElectroMart",
+    "year": 2022,
+    "country": "USA",
+    "gadgets": [
+      {
+        "name": "Tablet Pro",
+        "type": "Computing",
+        "color": "Space Gray"
+      },
+      {
+        "name": "Smart Ring",
+        "type": "Wearable",
+        "color": "Gold"
+      }
+    ]
+  },
+  {
+    "name": "FutureStore",
+    "year": 2021,
+    "country": "Germany",
+    "gadgets": [
+      {
+        "name": "Electric Scooter",
+        "type": "Mobility",
+        "color": "Red"
+      },
+      {
+        "name": "Smart Lock",
+        "type": "Security",
+        "color": "Bronze"
+      }
+    ]
+  },
+  {
+    "name": "TechVault",
+    "year": 2023,
+    "country": "Singapore",
+    "gadgets": [
+      {
+        "name": "AR Glasses",
+        "type": "Wearable",
+        "color": "Titanium"
+      },
+      {
+        "name": "Smart Display",
+        "type": "Home",
+        "color": "White"
+      },
+      {
+        "name": "Fitness Band",
+        "type": "Wearable",
+        "color": "Black"
+      }
+    ]
+  }
+]
