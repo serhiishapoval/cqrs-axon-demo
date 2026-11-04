@@ -60,18 +60,17 @@ public class StoreEventHandler {
   private void insertGadget(final StoreCreatedEvent storeCreatedEvent) {
     storeCreatedEvent
         .getGadgets()
-        .forEach(
-            gadget -> {
-              final GadgetEntity gadgetEntity =
-                  GadgetEntity.builder()
-                      .id(gadget.getId())
-                      .name(gadget.getName())
-                      .type(gadget.getType())
-                      .color(gadget.getColor())
-                      .storeId(storeCreatedEvent.getId())
-                      .build();
-              this.gadgetRepository.save(gadgetEntity);
-              log.info("insertGadget. New gadget inserted. gadgetEntity: {}", gadgetEntity);
-            });
+        .forEach(gadget -> {
+          final GadgetEntity gadgetEntity =
+              GadgetEntity.builder()
+                  .id(gadget.getId())
+                  .name(gadget.getName())
+                  .type(gadget.getType())
+                  .color(gadget.getColor())
+                  .storeId(storeCreatedEvent.getId())
+                  .build();
+          this.gadgetRepository.save(gadgetEntity);
+          log.info("insertGadget. New gadget inserted. gadgetEntity: {}", gadgetEntity);
+        });
   }
 }

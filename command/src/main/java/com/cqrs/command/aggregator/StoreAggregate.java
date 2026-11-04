@@ -4,10 +4,9 @@ import com.cqrs.command.model.command.CreateStoreCommand;
 import com.cqrs.command.model.command.UpdateStoreNameCommand;
 import com.cqrs.dto.event.store.GadgetState;
 import com.cqrs.dto.event.store.StoreCreatedEvent;
+import com.cqrs.dto.event.store.StoreNameUpdatedEvent;
 import java.util.ArrayList;
 import java.util.List;
-
-import com.cqrs.dto.event.store.StoreNameUpdatedEvent;
 import org.axonframework.commandhandling.CommandHandler;
 import org.axonframework.eventsourcing.EventSourcingHandler;
 import org.axonframework.modelling.command.AggregateIdentifier;
@@ -34,17 +33,16 @@ public class StoreAggregate {
     final List<GadgetState> gadgetStates = new ArrayList<>();
     command
         .getGadgets()
-        .forEach(
-            gadget -> {
-              GadgetState gadgetState =
-                  GadgetState.builder()
-                      .id(gadget.getId())
-                      .name(gadget.getName())
-                      .type(gadget.getType())
-                      .color(gadget.getColor())
-                      .build();
-              gadgetStates.add(gadgetState);
-            });
+        .forEach(gadget -> {
+          GadgetState gadgetState =
+              GadgetState.builder()
+                  .id(gadget.getId())
+                  .name(gadget.getName())
+                  .type(gadget.getType())
+                  .color(gadget.getColor())
+                  .build();
+          gadgetStates.add(gadgetState);
+        });
 
     final StoreCreatedEvent storeEvent =
         StoreCreatedEvent.builder()

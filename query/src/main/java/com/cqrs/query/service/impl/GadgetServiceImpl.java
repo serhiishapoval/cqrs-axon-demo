@@ -47,15 +47,14 @@ public class GadgetServiceImpl implements GadgetService {
   public List<GadgetToCountryResponse> getGadgetsFromCountry(final String country) {
     return new ArrayList<>(
         this.gadgetToCountryRepository.findAllByCountry(country).stream()
-            .map(
-                gadgetToCountryEntity ->
-                    GadgetToCountryResponse.builder()
-                        .country(gadgetToCountryEntity.getCountry())
-                        .gadgetId(gadgetToCountryEntity.getGadgetId())
-                        .name(gadgetToCountryEntity.getName())
-                        .type(gadgetToCountryEntity.getType())
-                        .color(gadgetToCountryEntity.getColor())
-                        .build())
+            .map(gadgetToCountryEntity ->
+                GadgetToCountryResponse.builder()
+                    .country(gadgetToCountryEntity.getCountry())
+                    .gadgetId(gadgetToCountryEntity.getGadgetId())
+                    .name(gadgetToCountryEntity.getName())
+                    .type(gadgetToCountryEntity.getType())
+                    .color(gadgetToCountryEntity.getColor())
+                    .build())
             .toList());
   }
 
@@ -67,15 +66,14 @@ public class GadgetServiceImpl implements GadgetService {
         ? new ArrayList<>(0)
         : new ArrayList<>(
             storeIdToGadgetEntities.stream()
-                .map(
-                    storeIdToGadgetEntity ->
-                        StoreIdToGadgetResponse.builder()
-                            .storeId(storeIdToGadgetEntity.getStoreId())
-                            .gadgetId(storeIdToGadgetEntity.getGadgetId())
-                            .name(storeIdToGadgetEntity.getName())
-                            .type(storeIdToGadgetEntity.getType())
-                            .color(storeIdToGadgetEntity.getColor())
-                            .build())
+                .map(storeIdToGadgetEntity ->
+                    StoreIdToGadgetResponse.builder()
+                        .storeId(storeIdToGadgetEntity.getStoreId())
+                        .gadgetId(storeIdToGadgetEntity.getGadgetId())
+                        .name(storeIdToGadgetEntity.getName())
+                        .type(storeIdToGadgetEntity.getType())
+                        .color(storeIdToGadgetEntity.getColor())
+                        .build())
                 .toList());
   }
 }

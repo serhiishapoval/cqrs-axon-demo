@@ -39,14 +39,13 @@ public class StoreServiceImpl implements StoreService {
           .gadgets(
               new ArrayList<>(
                   gadgetEntities.stream()
-                      .map(
-                          gadgetEntity ->
-                              GadgetResponse.builder()
-                                  .id(gadgetEntity.getId())
-                                  .name(gadgetEntity.getName())
-                                  .type(gadgetEntity.getType())
-                                  .color(gadgetEntity.getColor())
-                                  .build())
+                      .map(gadgetEntity ->
+                          GadgetResponse.builder()
+                              .id(gadgetEntity.getId())
+                              .name(gadgetEntity.getName())
+                              .type(gadgetEntity.getType())
+                              .color(gadgetEntity.getColor())
+                              .build())
                       .toList()))
           .build();
     }

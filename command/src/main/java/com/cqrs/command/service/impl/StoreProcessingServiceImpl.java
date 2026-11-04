@@ -27,17 +27,16 @@ public class StoreProcessingServiceImpl implements StoreProcessingService {
     final List<GadgetCommand> gadgetCommands = new ArrayList<>();
     storeRequest
         .getGadgets()
-        .forEach(
-            gadgetRequest -> {
-              GadgetCommand gadgetCommand =
-                  GadgetCommand.builder()
-                      .id(UUID.randomUUID().toString())
-                      .name(gadgetRequest.getName())
-                      .type(gadgetRequest.getType())
-                      .color(gadgetRequest.getColor())
-                      .build();
-              gadgetCommands.add(gadgetCommand);
-            });
+        .forEach(gadgetRequest -> {
+          GadgetCommand gadgetCommand =
+              GadgetCommand.builder()
+                  .id(UUID.randomUUID().toString())
+                  .name(gadgetRequest.getName())
+                  .type(gadgetRequest.getType())
+                  .color(gadgetRequest.getColor())
+                  .build();
+          gadgetCommands.add(gadgetCommand);
+        });
 
     final CreateStoreCommand createStoreCommand =
         CreateStoreCommand.builder()

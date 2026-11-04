@@ -6,14 +6,10 @@ import com.cqrs.query.model.query.GetGadgetsByStoreIdQuery;
 import com.cqrs.query.model.rest.GadgetResponse;
 import com.cqrs.query.model.rest.GadgetToCountryResponse;
 import com.cqrs.query.model.rest.StoreIdToGadgetResponse;
-
-import java.util.Collections;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.axonframework.messaging.responsetypes.ResponseTypes;
-import org.axonframework.queryhandling.GenericQueryMessage;
 import org.axonframework.queryhandling.QueryGateway;
-import org.axonframework.queryhandling.QueryMessage;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
