@@ -17,6 +17,7 @@ The project is a learning and demo codebase. It is not production-ready. See [Kn
 - [Data model](#data-model)
 - [Configuration reference](#configuration-reference)
 - [Running locally](#running-locally)
+- [Running the tests](#running-the-tests)
 - [Trying it out](#trying-it-out)
 - [Build notes](#build-notes)
 - [Known limitations](#known-limitations)
@@ -125,10 +126,11 @@ Each write-side and read-side module has the same layering: `controller` or `han
 - Java 27 (`java.version`), compiled with `maven.compiler.release` **25**
 - Spring Boot 3.5.3 (parent POM)
 - Spring Cloud 2025.0.0: Eureka server and client, Spring Cloud Gateway
-- Axon Framework 4.11.2 (`axon-spring-boot-starter`), with Axon Server as the event store and message router
+- Axon Framework 4.13.2 (`axon-spring-boot-starter`, and `axon-test` for tests), with Axon Server as the event store and message router
 - XStream as the Axon serializer for events, commands and messages
 - Spring Web, Spring Data JPA, H2 in-memory databases
 - Lombok 1.18.48
+- JUnit 6.1.3, Mockito 5.24.0 and `axon-test` 4.13.2 for unit tests (pinned in the parent POM)
 - Maven (multi-module)
 
 ---
@@ -318,6 +320,19 @@ Check registration at http://localhost:8761. `COMMAND`, `QUERY` and `API-GATEWAY
 
 ---
 
+## Running the tests
+
+```bash
+mvn test                       # all modules
+mvn -pl command -am test       # one module, with its dependencies
+```
+
+The unit tests live in `command/src/test/java` and `query/src/test/java`. The command tests use Axon's `AggregateTestFixture` for the aggregate, and mock `CommandGateway` for the rest. The query tests mock `QueryGateway` and the repositories. Axon Server, Eureka and H2 are not needed to run them.
+
+The tests cover the `StoreAggregate` command handling and validation, the command and query services, the event handlers that update the read models, and the controllers.
+
+---
+
 ## Trying it out
 
 1. Create a store with the `POST` command above. Copy the returned ID.
@@ -345,7 +360,8 @@ Check registration at http://localhost:8761. `COMMAND`, `QUERY` and `API-GATEWAY
 - Lombok is pinned to **1.18.48** in the parent `dependencyManagement`. Earlier versions fail on newer JDKs with a `TypeTag :: UNKNOWN` error during compilation.
 - `dto-event` is a plain library. Its `spring-boot-maven-plugin` repackage execution is disabled (`phase: none`), so it produces a normal JAR.
 - Code style follows **google-java-format**.
-- There are no unit or integration tests in the repository.
+- Unit tests use JUnit 6, Mockito 5 and `axon-test`, with versions pinned in the parent POM. `byte-buddy.version` is pinned to 1.18.17 for Java 27 support.
+- There are no integration tests.
 
 ---
 
@@ -376,5 +392,5 @@ This is a demo. The following are known gaps.
 - No authentication or authorization on any endpoint, including the H2 consoles.
 - The H2 credentials are `root` / `root`.
 - The `XStream` serializer allows `com.cqrs.dto.**`, `com.cqrs.query.**`, `java.util.*`, `java.lang.*` and array types. The `AnyTypePermission.ANY` line runs first, so the wildcard allowlist does not restrict deserialization in practice.
-- No tests, no CI and no containerisation are included.
+- No integration tests, no CI and no containerisation are included.
 - `stores.json` is sample data for manual testing. No code loads it.
